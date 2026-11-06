@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#172638">
+  <meta name="description" content="Family Smart Display - bảng thông tin gia đình">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+  <title>Family Hub</title>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">家族のスマートディスプレイ</p>
+      <h1>Family Hub</h1>
+    </div>
+    <div class="clock">
+      <strong id="clock">--:--</strong>
+      <span id="today">Đang tải ngày...</span>
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <section class="panel welcome">
+      <div>
+        <p class="eyebrow">FAMILY DASHBOARD</p>
+        <h2>Chào cả nhà! 👋</h2>
+        <p class="muted">Mọi thông tin quan trọng trong một màn hình.</p>
+      </div>
+      <div class="weather-placeholder">
+        <span class="weather-icon">🌤️</span>
+        <div><b>Thời tiết</b><small>Chưa kết nối dữ liệu</small></div>
+      </div>
+    </section>
+
+    <section class="panel calendar-panel">
+      <div class="section-heading">
+        <div><p class="eyebrow">FAMILY CALENDAR</p><h2>Lịch gia đình</h2></div>
+        <div class="month-controls">
+          <button id="prev-month" aria-label="Tháng trước">‹</button>
+          <b id="month-label"></b>
+          <button id="next-month" aria-label="Tháng sau">›</button>
+        </div>
+      </div>
+      <div class="calendar-grid" id="calendar"></div>
+      <div class="legend"><span><i class="dot school"></i> Trường học</span><span><i class="dot family"></i> Gia đình</span></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><p class="eyebrow">SCHOOL</p><h2>Lịch trường học</h2></div><span class="tag">Các bé</span></div>
+      <div class="child-list">
+        <button class="child-card" data-child="Hana"><span class="avatar">🎒</span><span><b>Hana</b><small>Lịch tiểu học · Sự kiện · Đồ cần mang</small></span><span class="arrow">›</span></button>
+        <button class="child-card" data-child="Bé thứ hai"><span class="avatar">🧸</span><span><b>Bé thứ hai</b><small>Lịch nhà trẻ · Sự kiện · Đồ cần mang</small></span><span class="arrow">›</span></button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><p class="eyebrow">UP NEXT</p><h2>Sắp tới</h2></div><button class="text-button" id="add-event">＋ Thêm sự kiện</button></div>
+      <div id="events" class="empty-state">Chưa có sự kiện. Anh có thể thêm lịch gia đình hoặc lịch trường ở đây.</div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><p class="eyebrow">TO-DO</p><h2>Việc cần làm</h2></div><button class="text-button" id="add-task">＋ Thêm việc</button></div>
+      <ul id="tasks" class="task-list"><li class="empty-state">Chưa có việc cần làm.</li></ul>
+    </section>
+
+    <section class="panel notes-panel">
+      <div class="section-heading"><div><p class="eyebrow">FAMILY NOTES</p><h2>Ghi chú gia đình</h2></div></div>
+      <textarea id="family-note" placeholder="Ghi chú nhanh cho cả nhà..."></textarea>
+      <small class="muted">Ghi chú được lưu trên thiết bị này.</small>
+    </section>
+  </main>
+
+  <dialog id="detail-dialog">
+    <form method="dialog" class="dialog-content">
+      <button class="close" aria-label="Đóng">×</button>
+      <p class="eyebrow">SCHOOL INFORMATION</p>
+      <h2 id="dialog-title">Thông tin</h2>
+      <p class="muted">Khu vực này sẽ hiển thị lịch học, sự kiện và đồ dùng cần chuẩn bị của từng bé.</p>
+      <button class="primary">Đóng</button>
+    </form>
+  </dialog>
+  <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+      window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(console.error));
+    }
+  </script>
+</body>
+</html>
