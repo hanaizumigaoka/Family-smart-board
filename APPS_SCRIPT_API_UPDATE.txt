@@ -1,0 +1,64 @@
+APPS SCRIPT API UPDATE - JSONP
+
+Vi sao can cap nhat: GitHub Pages va Apps Script la hai domain khac nhau. PWA dung JSONP de tranh loi CORS khi doc API.
+
+Trong Code.gs:
+1. GIU LAI syncSakuraEmails(), saveSakuraPDFs(), cac hang so SPREADSHEET_ID, SAKURA_SENDER, SAKURA_PDF_FOLDER_ID.
+2. XOA cac ham API cu: doGet(e), getSakuraNotices(), jsonResponse(data), va dong khai bao API_TOKEN cu.
+3. Dan khoi code duoi day vao cuoi Code.gs. Thay token mau bang mot chuoi rieng dai toi thieu 32 ky tu, chi gom chu va so. Khong dung token thu nghiem cu trong chat.
+4. Save > Deploy > Manage deployments > Edit > New version > Deploy.
+
+const API_TOKEN = "THAY_BANG_TOKEN_RIENG_DAI_NGAU_NHIEN";
+
+function doGet(e) {
+  const params = (e && e.parameter) ? e.parameter : {};
+  const callback = String(params.callback || "");
+  let result;
+  try {
+    if (String(params.token || "") !== API_TOKEN) {
+      result = { success: false, message: "Unauthorized" };
+    } else if ((params.action || "notices") === "notices") {
+      result = getSakuraNoticesData();
+    } else {
+      result = { success: false, message: "Unknown action" };
+    }
+  } catch (err) {
+    result = { success: false, message: String(err && err.message ? err.message : err) };
+  }
+  return apiOutput(result, callback);
+}
+
+function getSakuraNoticesData() {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName("SakuraInbox");
+  if (!sheet || sheet.getLastRow() < 2) return { success: true, count: 0, notices: [] };
+  const values = sheet.getDataRange().getValues();
+  const headers = values[0];
+  const notices = values.slice(1).map(row => {
+    const item = {};
+    headers.forEach((header, index) => {
+      if (header === "") return;
+      const value = row[index];
+      item[String(header)] = value instanceof Date ? value.toISOString() : value;
+    });
+    return item;
+  });
+  notices.sort((a, b) => new Date(b["Ngày gửi"] || 0) - new Date(a["Ngày gửi"] || 0));
+  return { success: true, count: notices.length, notices: notices };
+}
+
+function apiOutput(data, callback) {
+  if (callback && /^[A-Za-z_$][0-9A-Za-z_$\.]*$/.test(callback)) {
+    return ContentService.createTextOutput(callback + "(" + JSON.stringify(data) + ");")
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+  return ContentService.createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+BAO MAT VA QUYEN TRUY CAP
+- Token duoc nhap vao PWA, luu trong localStorage tren thiet bi, khong nam trong app.js.
+- Token van la bearer secret. Ai lay duoc token co the goi API.
+- Deployment "Chi minh toi" co the chuyen huong toi trang dang nhap Google va khong chay duoc JSONP tu GitHub Pages. Neu gap loi, KHONG tu dong chuyen sang Anyone.
+- Neu chon Anyone, endpoint co the duoc goi tu internet; token la lop bao ve duy nhat. Day la giai phap tien dung de thu nghiem ca nhan, khong phai bao mat manh cho du lieu nhay cam.
+- Link PDF chi mo duoc neu tai khoan Google tren iPad co quyen doc file Drive.

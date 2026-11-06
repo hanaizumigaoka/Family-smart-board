@@ -1,0 +1,17 @@
+FAMILY SMART BOARD - BAN NANG CAP SAKURA
+
+ZIP nay gom cac file PWA de thay tren GitHub va 1 file huong dan cap nhat Apps Script.
+
+THU TU
+1. Sao luu repo hien tai.
+2. Mo APPS_SCRIPT_API_UPDATE.txt va cap nhat Code.gs theo huong dan. Tao token rieng moi, khong dung token test cu.
+3. Deploy Apps Script thanh New version.
+4. Thay cac file cung ten trong thu muc goc GitHub repo Family-smart-board bang file trong ZIP. Giu thu muc icons/.
+5. Commit changes, doi GitHub Pages cap nhat. Dong va mo lai PWA de bo cache cu.
+6. Tren Board bam Ket noi, dan token moi. Token duoc luu tren thiet bi nay. Board tu cap nhat moi 5 phut.
+
+PDF: Neu cot PDF Drive IDs co ID, Board tao nut mo file Drive. Neu chua co ID, Board hien ten file va thong bao chua luu PDF. Can chay saveSakuraPDFs() de luu cac PDF; trigger syncSakuraEmails() hien tai khong tu dong chay ham nay.
+
+BAO MAT: GitHub Pages la website cong khai, khong commit token vao app.js. Token trong localStorage van co the bi lay neu thiet bi/trinh duyet bi truy cap. Deployment "Chi minh toi" co the khong hoat dong tu GitHub Pages do yeu cau dang nhap Google. Khong doi sang Anyone neu chua can nhac rui ro; neu chon Anyone, token la lop bao ve duy nhat.
+
+Giu lai cac chuc nang cu: dong ho, lich, cac the tre, su kien, viec can lam, ghi chu. Su kien/viec lam van la du lieu tam thoi tren trinh duyet, chua dong bo len Sheets.

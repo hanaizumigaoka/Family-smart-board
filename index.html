@@ -57,6 +57,22 @@
       </div>
     </section>
 
+    <section class="panel sakura-panel">
+      <div class="section-heading sakura-heading">
+        <div><p class="eyebrow">SAKURA RENRAKUMOU</p><h2>Thông báo từ trường học 🌸</h2></div>
+        <div class="sakura-actions">
+          <button class="text-button" id="sakura-settings" type="button">⚙ Kết nối</button>
+          <button class="text-button" id="refresh-sakura" type="button">↻ Làm mới</button>
+        </div>
+      </div>
+      <div id="sakura-status" class="sakura-status" role="status" aria-live="polite">Chưa thiết lập kết nối Sakura.</div>
+      <div id="sakura-notices" class="sakura-notices"><div class="empty-state">Nhấn “Kết nối” để thiết lập API Sakura.</div></div>
+      <div class="sakura-footer">
+        <small class="muted" id="sakura-updated">Dữ liệu được đồng bộ từ SakuraInbox.</small>
+        <button class="text-button subtle-button" id="sakura-disconnect" type="button">Xóa token khỏi thiết bị</button>
+      </div>
+    </section>
+
     <section class="panel">
       <div class="section-heading"><div><p class="eyebrow">UP NEXT</p><h2>Sắp tới</h2></div><button class="text-button" id="add-event">＋ Thêm sự kiện</button></div>
       <div id="events" class="empty-state">Chưa có sự kiện. Anh có thể thêm lịch gia đình hoặc lịch trường ở đây.</div>
@@ -83,6 +99,21 @@
       <button class="primary">Đóng</button>
     </form>
   </dialog>
+  <dialog id="sakura-token-dialog">
+    <form method="dialog" class="dialog-content token-dialog" id="sakura-token-form">
+      <button class="close" aria-label="Đóng">×</button>
+      <p class="eyebrow">SAKURA API CONNECTION</p>
+      <h2>Thiết lập Sakura</h2>
+      <p class="muted">Dán API token đã đặt trong Apps Script. Token được lưu trên thiết bị này, không nằm trong mã nguồn GitHub.</p>
+      <label for="sakura-token-input">API token</label>
+      <input id="sakura-token-input" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Dán token tại đây">
+      <div class="token-dialog-actions">
+        <button class="secondary" value="cancel">Hủy</button>
+        <button class="primary" id="save-sakura-token" value="default">Lưu và kết nối</button>
+      </div>
+    </form>
+  </dialog>
+
   <script src="app.js"></script>
   <script>
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
